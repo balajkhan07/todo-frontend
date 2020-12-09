@@ -1,0 +1,12 @@
+table {
+    width: 100%;
+  }
+
+  ::ng-deep .mat-form-field-placeholder{
+    color:#7b1fa2;
+  }
+
+  ::ng-deep .mat-focused .mat-form-field-placeholder{
+
+    color:#7b1fa2;
+  }
