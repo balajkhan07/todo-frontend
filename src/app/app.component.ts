@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Todo } from './todo.model';
 import { TodoService } from './todo.service';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +31,7 @@ export class AppComponent implements OnInit {
   addTodo() {
     return this.todoService.addTodo(this.todo).subscribe(res => {
       this.getTodos();
+      this.todo = {};
     });
   }
 
@@ -38,10 +40,9 @@ export class AppComponent implements OnInit {
   }
 
   removeTodo(todo: Todo) {
-    return this.todoService.removeTodo(todo)
-      .subscribe(res => {
-        this.getTodos();
-      });
+    this.todoService.removeTodo(todo).pipe(first()).toPromise().then(() => {
+      this.getTodos();
+    });
   }
 
 }
