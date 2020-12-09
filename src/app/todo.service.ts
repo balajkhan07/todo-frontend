@@ -24,7 +24,7 @@ export class TodoService {
   }
 
   removeTodo(data: Todo) {
-    return this.http.delete(`${this.serviceUrl}'/delete-todo/${data._id}`);
+    return this.http.delete(`${this.serviceUrl}/delete-todo/${data._id}`);
   }
 
 }

@@ -17,12 +17,14 @@
     <br>
 
     <button id="basic" type="button" mat-button mat-raised-button (click)="addTodo()">
-      Basic button
+      Add Todo
     </button>
 
   </div>
 
   <div style="width: 50vw; padding: 50px;">
+
+    <h3>Todo Table</h3>
 
     <table mat-table [dataSource]="todos" class="mat-elevation-z8">
 
