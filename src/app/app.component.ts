@@ -10,9 +10,10 @@ import { first } from 'rxjs/operators';
 })
 export class AppComponent implements OnInit {
 
-  todo: Todo = {};
+  todo: Todo = { title: '', description: '' };
   todos: Todo[] = [];
   displayedColumns: string[] = ['title', 'description', 'actions'];
+  isEdit: boolean = false;
 
   constructor(private todoService: TodoService) { }
 
@@ -24,24 +25,36 @@ export class AppComponent implements OnInit {
   getTodos() {
     return this.todoService.getTodos()
       .subscribe((res: any) => {
-        this.todos = res
+        this.todos = res;
       });
   }
 
-  addTodo() {
-    return this.todoService.addTodo(this.todo).subscribe(res => {
-      this.getTodos();
-      this.todo = {};
-    });
+  addTodo(todo: Todo) {
+    return this.todoService.addTodo(todo)
+      .subscribe(() => {
+        this.getTodos();
+        this.todo = {};
+      });
   }
 
   updateTodos(todo: Todo) {
-    return this.todoService.updateTodos(todo);
+    this.todo = JSON.parse(JSON.stringify(todo));
+    this.isEdit = true;
   }
 
   removeTodo(todo: Todo) {
-    this.todoService.removeTodo(todo).pipe(first()).toPromise().then(() => {
+    this.todoService.removeTodo(todo).pipe(first()).toPromise()
+      .then(() => {
+        this.getTodos();
+      });
+  }
+
+
+  saveEdit(todo: Todo) {
+    return this.todoService.updateTodos(todo).subscribe(res => {
       this.getTodos();
+      this.todo = {};
+      this.isEdit = false;
     });
   }
 

@@ -2,23 +2,33 @@
 
   <div style="width: 50vw; padding: 50px;">
 
+
+
     <form class="example-form">
+
+      <h3 *ngIf="!isEdit">Add Todo</h3>
+      <h3 *ngIf="isEdit">Edit Todo</h3>
+
       <mat-form-field class="example-full-width">
         <mat-label>Title</mat-label>
-        <input matInput [(ngModel)]="todo.title">
+        <input matInput [(ngModel)]="todo.title" [ngModelOptions]="{standalone: true}">
       </mat-form-field>
 
       <br>
 
       <mat-form-field class="example-full-width">
         <mat-label>Description</mat-label>
-        <input matInput [(ngModel)]="todo.description">
+        <input matInput [(ngModel)]="todo.description" [ngModelOptions]="{standalone: true}">
       </mat-form-field>
 
       <br>
 
-      <button id="basic" type="button" mat-button mat-raised-button (click)="addTodo()">
+      <button id="basic" type="button" mat-button mat-raised-button (click)="addTodo(todo)" *ngIf="!isEdit">
         Add Todo
+      </button>
+
+      <button id="basic" type="button" mat-button mat-raised-button (click)="saveEdit(todo)" *ngIf="isEdit">
+        Save Todo
       </button>
 
     </form>
@@ -50,6 +60,10 @@
         <td mat-cell *matCellDef="let element">
           <button id="basic" type="button" mat-button mat-raised-button accent (click)="removeTodo(element)">
             Delete
+          </button>
+
+          <button id="basic" type="button" mat-button mat-raised-button accent (click)="updateTodos(element)">
+            Edit
           </button>
         </td>
       </ng-container>
